@@ -3,6 +3,7 @@ package br.com.dantebasso.warehouse.factory;
 import br.com.dantebasso.warehouse.model.DataMeasure;
 import br.com.dantebasso.warehouse.model.SensorType;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -38,8 +39,8 @@ public class DataMeasureFactory {
         
         final String sensorId = dataMapper.get(KEY_SENSOR_ID);
         final Integer sensorValue = parseInt(dataMapper.get(KEY_SENSOR_VALUE));
-        final Map<String, Object> metaData = new HashMap<String, Object>();
-        metaData.put(METADATA_KEY_UTC_TIME, Instant.now());
+        final Map<String, Serializable> metaData = new HashMap<String, Serializable>();
+        metaData.put(METADATA_KEY_UTC_TIME, Instant.now().toString());
         metaData.put(METADATA_KEY_REMOTE_ADDRESS, remoteAddress);
         return new DataMeasure(UUID.randomUUID(), sensorId, sensorValue, sensorType, metaData);
     }

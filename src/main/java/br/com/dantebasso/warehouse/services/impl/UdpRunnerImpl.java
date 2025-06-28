@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @Component
 @Slf4j
-public class UdpRunner {
+public class UdpRunnerImpl {
     
     private final DataListenerService dataListenerService;
     
