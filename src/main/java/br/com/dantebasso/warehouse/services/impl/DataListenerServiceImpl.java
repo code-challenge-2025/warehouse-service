@@ -4,7 +4,8 @@ import br.com.dantebasso.warehouse.factory.DataMeasureFactory;
 import br.com.dantebasso.warehouse.model.DataMeasure;
 import br.com.dantebasso.warehouse.model.SensorType;
 import br.com.dantebasso.warehouse.services.DataListenerService;
-import lombok.AllArgsConstructor;
+import br.com.dantebasso.warehouse.services.DataMeasureProducer;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ import java.net.SocketException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 @Slf4j
 public class DataListenerServiceImpl implements DataListenerService {
@@ -23,6 +24,8 @@ public class DataListenerServiceImpl implements DataListenerService {
     private static final Integer BUFFER_SIZE = 2048;
     
     private final ExecutorService readerService = Executors.newFixedThreadPool(2);
+    
+    private final DataMeasureProducer dataMeasureProducer;
     
     @Override
     public void dataReader(final Integer udpPort, final SensorType sensorType) {
@@ -47,6 +50,8 @@ public class DataListenerServiceImpl implements DataListenerService {
                            dataMeasure.sensorType(),
                            dataMeasure.metadata()
                        );
+                       
+                       dataMeasureProducer.addMessageToTopic(dataMeasure);
                    } catch (IOException exception) {
                        log.error("Error receiving data on UDP PORT: {}", udpPort);
                    }
