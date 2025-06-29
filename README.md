@@ -13,3 +13,9 @@ https://docs.spring.io/spring-kafka/reference/
 
 open folder "docker" and run:
 `docker compose up -d `
+
+## Configurations (CUSTOMS)
+
+| GROUP     | DESCRIPTION                  | DEFAULT VALUE       |
+|-----------|------------------------------|---------------------|
+| kafka     | kafka topic name             | code-challenge-2025 |
